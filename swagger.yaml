@@ -1,0 +1,70 @@
+swagger: '2.0'
+info:
+  title: 'Helloworld microservice'
+  version: '0.0.1'
+  description: 'REST-based API for greeting the world or a specific person.'
+  contact:
+    email: 'author@example.com'
+  
+produces:
+  - 'application/json'
+
+consumes:
+  - 'application/json'
+  
+# Enable if you plan on supporting API usage plans.
+#securityDefinitions:
+#  api_key:
+#    type: "apiKey"
+#    name: "x-api-key"
+#    in: "header"
+
+parameters:
+  GreetedPathParam:
+    description: 'The name of the person to be greeted.'
+    required: true
+    name: greeted
+    type: string
+    in: path
+  GreetedQueryParam:
+    description: 'The name of the person to be greeted.'
+    required: false
+    name: greeted
+    type: string
+    in: query
+
+responses:
+  nay:
+    description: 'BAD REQUEST - I will NOT do that!'
+
+x-aws-support:
+  integrations:
+    HelloworldHandlerIntegration:
+      responses:
+        default:
+          statusCode: 400
+          $ref: '#/responses/nay'
+      uri:
+        'Fn::Sub': 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HelloworldHandler.Arn}/invocations'
+      passthroughBehavior: when_no_match
+      httpMethod: POST
+      contentHandling: CONVERT_TO_TEXT
+      type: aws_proxy
+
+paths:
+
+  '/helloworld/{greeted}':
+    parameters:
+      - $ref: '#/parameters/GreetedPathParam'
+      - $ref: '#/parameters/GreetedQueryParam'
+          
+    get:
+      summary: 'Returns a greeting for the name provided via a QUERY parameter.'
+      # Enable if you plan on supporting API usage plans.
+      #security:
+      #- api_key: []
+      responses:
+        200:
+          description: 'OK'
+      x-amazon-apigateway-integration:
+        $ref: '#/x-aws-support/integrations/HelloworldHandlerIntegration'

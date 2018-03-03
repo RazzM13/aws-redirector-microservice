@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: 'API.EXAMPLE.COM / Helloworld microservice endpoints.'
+Globals:
+  Function:
+    Runtime: nodejs6.10
+    Timeout: 180
+Resources:
+  HelloworldHandler:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: index.handler
+      CodeUri: ./
+      Events:
+        HelloworldRequest:
+          Type: Api
+          Properties:
+            Path: /helloworld/
+            Method: any
+            RestApiId: 
+              Ref: 
+                HelloworldEndpoints
+  HelloworldEndpoints:
+    Type: 'AWS::Serverless::Api'
+    Properties:
+      StageName: ProdStage
+      DefinitionBody: 
+        $ref: './swagger.yaml'

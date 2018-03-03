@@ -1,0 +1,33 @@
+{
+  "name": "helloworld_microservice",
+  "version": "0.0.1",
+  "description": "A NodeJS bootstrap scaffold project for a generic REST-based microservice utilizing the AWS technology stack.",
+  "main": "index.js",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "dependencies": {
+    "json-dereference-cli": "git+https://github.com/RazzM13/json-dereference-cli.git",
+    "swagger-cli": "^1.0.1",
+    "nopy": "^0.2.4"
+  },
+  "devDependencies": {},
+  "python": {
+    "dependencies": {
+      "awscli": ">=1.11.132"
+    }
+  },
+  "scripts": {
+    "install": "npip install",
+    "validate": "swagger-cli validate swagger.yaml",
+    "dereference": "json-dereference -s sam.yaml -o sam.deref.yaml",
+    "package": "aws cloudformation package --template-file sam.deref.yaml --s3-bucket 'helloworld.example.com-cloudformation' --output-template-file template.yaml",
+    "build": "npm run validate && npm run dereference && npm run package"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RazzM13/scaffold-aws-rest-microservice-nodejs.git"
+  },
+  "author": "RazzM13",
+  "license": "MIT"
+}

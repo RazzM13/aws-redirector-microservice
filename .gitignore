@@ -1,0 +1,5 @@
+npm-debug.log
+template.yaml
+sam.deref.yaml
+**/node_modules/
+**/python_modules/
