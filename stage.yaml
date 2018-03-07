@@ -24,7 +24,7 @@ Resources:
     Type: 'AWS::ApiGateway::Deployment'
     Properties:
       Description:
-        $ref: 'swagger.yaml/info/version'
+        $ref: 'swagger.yaml#info/version'
       RestApiId:
         Ref: 'RestApiIdParameter'
       StageDescription:
