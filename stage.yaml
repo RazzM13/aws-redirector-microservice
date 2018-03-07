@@ -1,9 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'Helloworld microservice - Configuration.'
-Globals:
-  Function:
-    Runtime: nodejs6.10
-    Timeout: 180
 Parameters:
   RestApiIdParameter:
     Type: String
