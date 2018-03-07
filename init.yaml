@@ -7,9 +7,10 @@ Globals:
     Timeout: 180
 Resources:
   RestApi:
-    Type: 'AWS::ApiGateway::RestApi'
+    Type: 'AWS::Serverless::Api'
     Properties:
-      Body: 
+      StageName: 'latest-build'
+      DefinitionBody: 
         $ref: 'swagger.yaml'
   HelloworldHandler:
     Type: 'AWS::Serverless::Function'
@@ -24,22 +25,8 @@ Resources:
             Method: any
             RestApiId: 
               Ref: RestApi
-    DependsOn:
-      - RestApi
-  LatestBuildDeployment:
-    Type: 'AWS::ApiGateway::Deployment'
-    Properties:
-      Description:
-        $ref: 'swagger.yaml#/info/version'
-      RestApiId:
-        Ref: RestApi
-      StageDescription: 'The latest build.'
-      StageName: 'latest-build'
-    DependsOn:
-      - RestApi
-      - HelloworldHandler
 Outputs:
-  ApiIdOutput:
+  RestApiIdOutput:
     Description: 'The ID of the API resource.'
     Value: 
       Ref: RestApi
