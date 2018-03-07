@@ -16,7 +16,7 @@ Parameters:
     Default: ''
     Description: 'A description of this specific deployment.'
 Resources:
-  EndpointDeployment:
+  EndpointsDeployment:
     Type: 'AWS::ApiGateway::Deployment'
     Properties:
       Description:

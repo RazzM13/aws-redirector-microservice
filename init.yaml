@@ -24,6 +24,8 @@ Resources:
             Method: any
             RestApiId: 
               Ref: Api
+    DependsOn:
+      - Api
   LatestBuildDeployment:
     Type: 'AWS::ApiGateway::Deployment'
     Properties:
