@@ -23,6 +23,7 @@ Resources:
               - $ref: 'swagger.yaml#/x-baseStackName'
               - RestApiId
       StageDescription:
-        Ref: 'StageDescriptionParameter'
-      StageName: 
-        Ref: 'StageNameParameter'
+        Description:
+          Ref: StageDescriptionParameter
+      StageName:
+        Ref: StageNameParameter
