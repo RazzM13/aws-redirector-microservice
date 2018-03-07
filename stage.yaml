@@ -4,8 +4,8 @@ Parameters:
   RestApiIdParameter:
     Type: String
     Default: 
-      # 'Fn::ImportValue': 'api.example.com-helloworld:ApiId'
-      'Fn::ImportValue': 'api-m13-ro-helloworld:ApiId'
+      # 'Fn::ImportValue': 'api.example.com-helloworld:RestApiId'
+      'Fn::ImportValue': 'api-m13-ro-helloworld:RestApiId'
     Description: 'The ID of the API resource that will receive this deployment.'
   StageNameParameter:
     Type: String

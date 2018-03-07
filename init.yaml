@@ -6,7 +6,7 @@ Globals:
     Runtime: nodejs6.10
     Timeout: 180
 Resources:
-  Api:
+  RestApi:
     Type: 'AWS::ApiGateway::RestApi'
     Properties:
       Body: 
@@ -23,31 +23,30 @@ Resources:
             Path: /helloworld/
             Method: any
             RestApiId: 
-              Ref: Api
+              Ref: RestApi
     DependsOn:
-      - Api
+      - RestApi
   LatestBuildDeployment:
     Type: 'AWS::ApiGateway::Deployment'
     Properties:
       Description:
         $ref: 'swagger.yaml#/info/version'
       RestApiId:
-        Ref: Api
-      StageDescription:
-        Ref: 'The latest build.'
-      StageName: 
-        Ref: 'latest-build'
+        Ref: RestApi
+      StageDescription: 'The latest build.'
+      StageName: 'latest-build'
     DependsOn:
+      - RestApi
       - HelloworldHandler
 Outputs:
   ApiIdOutput:
     Description: 'The ID of the API resource.'
     Value: 
-      Ref: Api
+      Ref: RestApi
     Export:
       Name:
         'Fn::Join':
           - ":"
           -
             - Ref: "AWS::StackName"
-            - ApiId
+            - RestApiId
