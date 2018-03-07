@@ -5,7 +5,10 @@ info:
   description: 'REST-based API for greeting the world or a specific person.'
   contact:
     email: 'author@example.com'
-  
+host: 'api.example.com'
+basePath: '/helloworld'
+x-baseStackName: 'api-example-com-helloworld'
+
 produces:
   - 'application/json'
 

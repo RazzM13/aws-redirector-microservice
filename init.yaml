@@ -35,5 +35,5 @@ Outputs:
         'Fn::Join':
           - ":"
           -
-            - Ref: "AWS::StackName"
+            - $ref: 'swagger.yaml#/x-baseStackName'
             - RestApiId

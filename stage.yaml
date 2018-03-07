@@ -1,12 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'Helloworld microservice - Configuration.'
 Parameters:
-  RestApiIdParameter:
-    Type: String
-    Default: 
-      # 'Fn::ImportValue': 'api.example.com-helloworld:RestApiId'
-      'Fn::ImportValue': 'api-m13-ro-helloworld:RestApiId'
-    Description: 'The ID of the API resource that will receive this deployment.'
   StageNameParameter:
     Type: String
     Default: V1
@@ -22,7 +16,12 @@ Resources:
       Description:
         $ref: 'swagger.yaml#/info/version'
       RestApiId:
-        Ref: 'RestApiIdParameter'
+        'Fn::ImportValue':
+          'Fn::Join':
+            - ":"
+            -
+              - $ref: 'swagger.yaml#/x-baseStackName'
+              - RestApiId
       StageDescription:
         Ref: 'StageDescriptionParameter'
       StageName: 
