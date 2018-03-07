@@ -1,0 +1,20 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Helloworld microservice - Initialization.'
+Resources:
+  Api:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Body:
+        $ref: 'swagger.yaml'
+Outputs:
+  ApiIdOutput:
+    Description: 'The ID of the API resource.'
+    Value: 
+      Ref: Api
+    Export:
+      Name:
+        'Fn::Join':
+          - ":"
+          -
+            - Ref: "AWS::StackName"
+            - ApiId

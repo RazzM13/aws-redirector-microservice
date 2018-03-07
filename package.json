@@ -20,8 +20,8 @@
   "scripts": {
     "install": "npip install",
     "validate": "swagger-cli validate swagger.yaml",
-    "dereference": "json-dereference -s sam.yaml -o sam.deref.yaml",
-    "package": "aws cloudformation package --template-file sam.deref.yaml --s3-bucket 'helloworld.example.com-cloudformation' --output-template-file template.yaml",
+    "dereference": "json-dereference -s init.yaml -o init.deref.yaml && json-dereference -s stage.yaml -o stage.deref.yaml",
+    "package": "aws cloudformation package --template-file init.deref.yaml --s3-bucket 'api.example.com-cloudformation' --output-template-file helloworld.pack.yaml",
     "build": "npm run validate && npm run dereference && npm run package"
   },
   "repository": {

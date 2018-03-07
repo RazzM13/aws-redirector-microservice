@@ -1,5 +1,7 @@
 npm-debug.log
-template.yaml
-sam.deref.yaml
+init.deref.yaml
+stage.deref.yaml
+helloworld.pack.yaml
+
 **/node_modules/
 **/python_modules/

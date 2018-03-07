@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Helloworld microservice - Configuration.'
+Globals:
+  Function:
+    Runtime: nodejs6.10
+    Timeout: 180
+Parameters:
+  RestApiIdParameter:
+    Type: String
+    Default: 
+      # 'Fn::ImportValue': 'api.example.com-helloworld:ApiId'
+      'Fn::ImportValue': 'api-m13-ro-helloworld:ApiId'
+    Description: 'The ID of the API resource that will receive this deployment.'
+  StageNameParameter:
+    Type: String
+    Default: V1
+    Description: 'An identifier used to differentiate resources across deployments.'
+  StageDescriptionParameter:
+    Type: String
+    Default: ''
+    Description: 'A description of this specific deployment.'
+Resources:
+  EndpointDeployment:
+    Type: 'AWS::ApiGateway::Deployment'
+    Properties:
+      Description:
+        $ref: 'swagger.yaml/info/version'
+      RestApiId:
+        Ref: 'RestApiIdParameter'
+      StageDescription:
+        Ref: 'StageDescriptionParameter'
+      StageName: 
+        Ref: 'StageNameParameter'
