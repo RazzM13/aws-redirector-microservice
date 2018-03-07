@@ -9,6 +9,7 @@ Resources:
   Api:
     Type: 'AWS::Serverless::Api'
     Properties:
+      StageName: latest
       DefinitionBody: 
         $ref: 'swagger.yaml'
   HelloworldHandler:
