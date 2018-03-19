@@ -32,7 +32,9 @@ Resources:
       Code:
         ZipFile: ./
       Role:
-        Ref: HelloworldHandlerRole
+        'Fn::GetAtt':
+          - HelloworldHandlerRole
+          - Arn
       Runtime:
         Ref: FunctionRuntime
       Timeout:
