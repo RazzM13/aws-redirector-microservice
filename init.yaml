@@ -83,5 +83,5 @@ Outputs:
         'Fn::Join':
           - ":"
           -
-            - $ref: 'package.json#/config/StackName'
+            - Ref: 'AWS::StackName'
             - RestApiId

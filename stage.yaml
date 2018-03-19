@@ -1,6 +1,9 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'Helloworld microservice - Configuration.'
 Parameters:
+  BaseStackName:
+    Type: String
+    Description: 'The name of the stack that houses the RestApi base.'
   StageNameParameter:
     Type: String
     Default: V1
@@ -20,7 +23,7 @@ Resources:
           'Fn::Join':
             - ":"
             -
-              - $ref: 'package.json#/config/StackName'
+              - Ref: BaseStackName
               - RestApiId
       StageDescription:
         Description:
