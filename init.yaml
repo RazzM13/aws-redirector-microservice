@@ -21,8 +21,6 @@ Resources:
         $ref: 'swagger.yaml#/info/version'
       RestApiId:
         Ref: RestApi
-      StageDescription:
-        Description: 'Latest version.'
       StageName: 'latest'
 
   HelloworldHandler:
