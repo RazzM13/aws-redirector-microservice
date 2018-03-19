@@ -8,10 +8,6 @@ Parameters:
     Type: String
     Default: V1
     Description: 'An identifier used to differentiate resources across deployments.'
-  StageDescriptionParameter:
-    Type: String
-    Default: ''
-    Description: 'A description of this specific deployment.'
 Resources:
   EndpointsDeployment:
     Type: 'AWS::ApiGateway::Deployment'
@@ -25,8 +21,5 @@ Resources:
             -
               - Ref: BaseStackName
               - RestApiId
-      StageDescription:
-        Description:
-          Ref: StageDescriptionParameter
       StageName:
         Ref: StageNameParameter
