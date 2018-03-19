@@ -1,9 +1,12 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'Helloworld microservice - Initialization.'
-Globals:
-  Function:
-    Runtime: nodejs6.10
-    Timeout: 180
+Parameters:
+  FunctionRuntime:
+    Type: String
+    Default: nodejs6.10
+  FunctionTimeout:
+    Type: Number
+    Default: 180
 Resources:
   RestApi:
     Type: 'AWS::ApiGateway::RestApi'
@@ -30,9 +33,9 @@ Resources:
       Role:
         Ref: HelloworldHandlerRole
       Runtime:
-        $ref: '#/Globals/Function/Runtime'
+        Ref: FunctionRuntime
       Timeout:
-        $ref: '#/Globals/Function/Timeout'
+        Ref: FunctionTimeout
 
   HelloworldHandlerRole:
     Type: 'AWS::IAM::Role'
