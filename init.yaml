@@ -81,5 +81,5 @@ Outputs:
         'Fn::Join':
           - ":"
           -
-            - $ref: 'swagger.yaml#/x-baseStackName'
+            - $ref: 'package.json#/config/StackName'
             - RestApiId

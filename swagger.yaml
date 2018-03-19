@@ -7,14 +7,13 @@ info:
     email: 'author@example.com'
 host: 'api.example.com'
 basePath: '/helloworld'
-x-baseStackName: 'api-example-com-helloworld'
 
 produces:
   - 'application/json'
 
 consumes:
   - 'application/json'
-  
+
 # Enable if you plan on supporting API usage plans.
 #securityDefinitions:
 #  api_key:
@@ -60,7 +59,7 @@ paths:
     parameters:
       - $ref: '#/parameters/GreetedPathParam'
       - $ref: '#/parameters/GreetedQueryParam'
-          
+
     get:
       summary: 'Returns a greeting for the name provided via a QUERY parameter.'
       # Enable if you plan on supporting API usage plans.

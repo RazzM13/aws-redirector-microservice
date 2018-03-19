@@ -19,6 +19,7 @@
     }
   },
   "config": {
+    "StackName": "com-example-api",
     "ArtifactsBucket": "com-example-api-artifacts"
   },
   "scripts": {
