@@ -10,8 +10,9 @@ Parameters:
 Resources:
   RestApi:
     Type: 'AWS::ApiGateway::RestApi'
-    Body:
-      $ref: 'swagger.yaml'
+    Properties:
+      Body:
+        $ref: 'swagger.yaml'
 
   RestApiLatestDeployment:
     Type: 'AWS::ApiGateway::Deployment'
