@@ -1,5 +1,4 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Transform: 'AWS::Serverless-2016-10-31'
 Description: 'Helloworld microservice - Initialization.'
 Globals:
   Function:
@@ -7,28 +6,71 @@ Globals:
     Timeout: 180
 Resources:
   RestApi:
-    Type: 'AWS::Serverless::Api'
+    Type: 'AWS::ApiGateway::RestApi'
+    Body:
+      $ref: 'swagger.yaml'
+
+  RestApiLatestDeployment:
+    Type: 'AWS::ApiGateway::Deployment'
     Properties:
-      StageName: 'LatestBuild'
-      DefinitionBody: 
-        $ref: 'swagger.yaml'
+      Description:
+        $ref: 'swagger.yaml#/info/version'
+      RestApiId:
+        Ref: RestApi
+      StageDescription:
+        Description: 'Latest version.'
+      StageName: 'latest'
+
   HelloworldHandler:
-    Type: 'AWS::Serverless::Function'
+    Type: 'AWS::Lambda::Function'
     Properties:
       Handler: index.handler
-      CodeUri: ./
-      Events:
-        Request:
-          Type: Api
-          Properties:
-            Path: /helloworld/
-            Method: any
-            RestApiId: 
-              Ref: RestApi
+      Code:
+        ZipFile: ./
+      Role:
+        Ref: HelloworldHandlerRole
+      Runtime:
+        $ref: '#/Globals/Function/Runtime'
+      Timeout:
+        $ref: '#/Globals/Function/Timeout'
+
+  HelloworldHandlerRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          -
+            Effect: 'Allow'
+            Principal:
+              Service:
+                - 'lambda.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Path: '/'
+      Policies:
+        -
+          PolicyName: 'root'
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              -
+                Effect: 'Allow'
+                Action: '*'
+                Resource: '*'
+
+  HelloworldHandlerRestApiPermission:
+    Type: 'AWS::Lambda::Permission'
+    Properties:
+      Action: 'lambda:InvokeFunction'
+      FunctionName:
+        Ref: HelloworldHandler
+      Principal: 'apigateway.amazonaws.com'
+
 Outputs:
   RestApiIdOutput:
     Description: 'The ID of the API resource.'
-    Value: 
+    Value:
       Ref: RestApi
     Export:
       Name:

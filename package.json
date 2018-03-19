@@ -9,6 +9,7 @@
   "dependencies": {
     "json-dereference-cli": "git+https://github.com/RazzM13/json-dereference-cli.git",
     "swagger-cli": "^1.0.1",
+    "cfn-lint": "^1.5.1",
     "nopy": "^0.2.4"
   },
   "devDependencies": {},
@@ -17,12 +18,17 @@
       "awscli": ">=1.11.132"
     }
   },
+  "config": {
+    "ArtifactsBucket": "com-example-api-artifacts"
+  },
   "scripts": {
     "install": "npip install",
-    "validate": "swagger-cli validate swagger.yaml",
     "dereference": "json-dereference -s init.yaml -o init.deref.yaml && json-dereference -s stage.yaml -o stage.deref.yaml",
-    "package": "aws cloudformation package --template-file init.deref.yaml --s3-bucket 'api.example.com-cloudformation' --output-template-file init.pack.yaml",
-    "build": "npm run validate && npm run dereference && npm run package"
+    "package": "aws cloudformation package --template-file init.deref.yaml --s3-bucket $npm_package_config_ArtifactsBucket --output-template-file init.pack.yaml",
+    "validate-init": "cfn-lint validate init.deref.yaml",
+    "validate-stage": "cfn-lint validate stage.deref.yaml",
+    "validate-swagger": "swagger-cli validate swagger.yaml",
+    "build": "npm run validate-swagger && npm run dereference && npm run validate-init && npm run validate-stage && npm run package"
   },
   "repository": {
     "type": "git",

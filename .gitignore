@@ -1,7 +1,7 @@
 npm-debug.log
+init.pack.yaml
 init.deref.yaml
 stage.deref.yaml
-helloworld.pack.yaml
 
 **/node_modules/
 **/python_modules/
