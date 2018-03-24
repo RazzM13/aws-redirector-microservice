@@ -9,5 +9,5 @@ phases:
 artifacts:
   type: zip
   files:
-    - init.pack.yaml
+    - base.pack.yaml
     - stage.deref.yaml

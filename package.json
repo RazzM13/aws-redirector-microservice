@@ -24,12 +24,12 @@
   },
   "scripts": {
     "install": "npip install",
-    "dereference": "json-dereference -s init.yaml -o init.deref.yaml && json-dereference -s stage.yaml -o stage.deref.yaml",
-    "package": "aws cloudformation package --template-file init.deref.yaml --s3-bucket $npm_package_config_ArtifactsBucket --output-template-file init.pack.yaml",
-    "validate-init": "cfn-lint validate init.deref.yaml",
+    "dereference": "json-dereference -s base.yaml -o base.deref.yaml && json-dereference -s stage.yaml -o stage.deref.yaml",
+    "package": "aws cloudformation package --template-file base.deref.yaml --s3-bucket $npm_package_config_ArtifactsBucket --output-template-file base.pack.yaml",
+    "validate-base": "cfn-lint validate base.deref.yaml",
     "validate-stage": "cfn-lint validate stage.deref.yaml",
     "validate-swagger": "swagger-cli validate swagger.yaml",
-    "build": "npm run validate-swagger && npm run dereference && npm run validate-init && npm run validate-stage && npm run package"
+    "build": "npm run validate-swagger && npm run dereference && npm run validate-base && npm run validate-stage && npm run package"
   },
   "repository": {
     "type": "git",

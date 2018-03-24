@@ -1,6 +1,6 @@
 npm-debug.log
-init.pack.yaml
-init.deref.yaml
+base.pack.yaml
+base.deref.yaml
 stage.deref.yaml
 
 **/node_modules/
