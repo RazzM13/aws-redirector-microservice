@@ -9,5 +9,5 @@ phases:
 artifacts:
   type: zip
   files:
-    - base.pack.yaml
-    - stage.deref.yaml
+    - cf_base.yaml
+    - cf_stage.yaml
