@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Helloworld microservice - Stage.'
+Description: 'Helloworld microservice - Stage deployment.'
 Parameters:
   BaseStackName:
     Type: String

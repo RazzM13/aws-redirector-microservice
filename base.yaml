@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Helloworld microservice - Base.'
+Description: 'Helloworld microservice - Base deployment.'
 Parameters:
   FunctionRuntime:
     Type: String

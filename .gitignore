@@ -1,5 +1,6 @@
 npm-debug.log
-base.pack.yaml
+cf_base.yaml
+cf_stage.yaml
 base.deref.yaml
 stage.deref.yaml
 
