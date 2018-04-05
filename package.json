@@ -30,7 +30,7 @@
     "validate-base": "cfn-lint validate base.deref.yaml",
     "validate-stage": "cfn-lint validate stage.deref.yaml",
     "validate-swagger": "swagger-cli validate swagger.yaml",
-    "validate-all": "npm run validate-base && npm run validate stage && npm run validate swagger",
+    "validate-all": "npm run validate-base && npm run validate-stage && npm run validate-swagger",
     "package-base": "aws cloudformation package --template-file base.deref.yaml --s3-bucket $npm_package_config_ArtifactsBucket --output-template-file cf_base.yaml",
     "package-stage": "aws cloudformation package --template-file stage.deref.yaml --s3-bucket $npm_package_config_ArtifactsBucket --output-template-file cf_stage.yaml",
     "package-all": "npm run package-base && npm run package-stage",
