@@ -6,5 +6,5 @@ exports.handler = (event, context, callback) => {
         'headers': {},
         'body': 'Hello World from a Little-Teapot!'
     }
-    callback(null, JSON.stringify(response));
+    callback(null, response);
 };
