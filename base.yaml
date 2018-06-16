@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: 'Helloworld microservice - Base deployment'
+Description: 'URL Redirector microservice - Base deployment'
 Parameters:
   FunctionRuntime:
     Type: String
@@ -23,22 +23,21 @@ Resources:
         Ref: RestApi
       StageName: 'latest'
 
-  HelloworldHandler:
+  RedirectHandler:
     Type: 'AWS::Lambda::Function'
     Properties:
       Handler: index.handler
-      Code:
-        ZipFile: ./
+      Code: ./
       Role:
         'Fn::GetAtt':
-          - HelloworldHandlerRole
+          - RedirectHandlerRole
           - Arn
       Runtime:
         Ref: FunctionRuntime
       Timeout:
         Ref: FunctionTimeout
 
-  HelloworldHandlerRole:
+  RedirectHandlerRole:
     Type: 'AWS::IAM::Role'
     Properties:
       AssumeRolePolicyDocument:
@@ -63,12 +62,12 @@ Resources:
                 Action: '*'
                 Resource: '*'
 
-  HelloworldHandlerRestApiPermission:
+  RedirectHandlerRestApiPermission:
     Type: 'AWS::Lambda::Permission'
     Properties:
       Action: 'lambda:InvokeFunction'
       FunctionName:
-        Ref: HelloworldHandler
+        Ref: RedirectHandler
       Principal: 'apigateway.amazonaws.com'
 
 Outputs:

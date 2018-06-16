@@ -1,12 +1,12 @@
 swagger: '2.0'
 info:
-  title: 'Helloworld microservice'
-  version: '0.0.1'
-  description: 'REST-based API for greeting the world or a specific person.'
+  title: 'HTTP Redirector microservice'
+  version: '0.1.0'
+  description: 'Microservice for redirecting HTTP requests.'
   contact:
-    email: 'author@example.com'
-host: 'api.example.com'
-basePath: '/helloworld'
+    email: 'r@m13.ro'
+host: 'imobiliare.m13.ro'
+basePath: '/r'
 
 produces:
   - 'application/json'
@@ -22,18 +22,12 @@ consumes:
 #    in: "header"
 
 parameters:
-  GreetedPathParam:
-    description: 'The name of the person to be greeted.'
+  IDPathParam:
+    description: 'The target URL ID.'
     required: true
-    name: greeted
+    name: id
     type: string
     in: path
-  GreetedQueryParam:
-    description: 'The name of the person to be greeted.'
-    required: false
-    name: greeted
-    type: string
-    in: query
 
 responses:
   nay:
@@ -41,13 +35,13 @@ responses:
 
 x-aws-support:
   integrations:
-    HelloworldHandlerIntegration:
+    RedirectHandlerIntegration:
       responses:
         default:
           statusCode: 400
           $ref: '#/responses/nay'
       uri:
-        'Fn::Sub': 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${HelloworldHandler.Arn}/invocations'
+        'Fn::Sub': 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RedirectHandler.Arn}/invocations'
       passthroughBehavior: when_no_match
       httpMethod: POST
       contentHandling: CONVERT_TO_TEXT
@@ -55,18 +49,17 @@ x-aws-support:
 
 paths:
 
-  '/helloworld/{greeted}':
+  '/r/{id}':
     parameters:
-      - $ref: '#/parameters/GreetedPathParam'
-      - $ref: '#/parameters/GreetedQueryParam'
+      - $ref: '#/parameters/IDPathParam'
 
     get:
-      summary: 'Returns a greeting for the name provided via a QUERY parameter.'
+      summary: 'Redirects to target URL based on the ID parameter.'
       # Enable if you plan on supporting API usage plans.
       #security:
       #- api_key: []
       responses:
-        200:
+        301:
           description: 'OK'
       x-amazon-apigateway-integration:
-        $ref: '#/x-aws-support/integrations/HelloworldHandlerIntegration'
+        $ref: '#/x-aws-support/integrations/RedirectHandlerIntegration'

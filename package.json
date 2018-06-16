@@ -1,7 +1,7 @@
 {
-  "name": "helloworld_microservice",
-  "version": "0.0.1",
-  "description": "A NodeJS bootstrap scaffold project for a generic REST-based microservice utilizing the AWS technology stack.",
+  "name": "redirect_microservice",
+  "version": "0.1.0",
+  "description": "A simplistic AWS based URL shortner / redirector microservice.",
   "main": "index.js",
   "engines": {
     "node": ">= 0.10.0"
@@ -19,26 +19,26 @@
     }
   },
   "config": {
-    "StackName": "com-example-api-helloworld",
-    "ArtifactsBucket": "com-example-api-artifacts"
+    "StackName": "ro-m13-imobiliare-redirect",
+    "ArtifactsBucket": "ro-m13-imobiliare-artifacts"
   },
   "scripts": {
     "install": "npip install",
     "dereference-base": "json-dereference -s base.yaml -o base.deref.yaml",
     "dereference-stage": "json-dereference -s stage.yaml -o stage.deref.yaml",
     "dereference-all": "npm run dereference-base && npm run dereference-stage",
-    "validate-base": "cfn-lint validate base.deref.yaml",
-    "validate-stage": "cfn-lint validate stage.deref.yaml",
-    "validate-swagger": "swagger-cli validate swagger.yaml",
-    "validate-all": "npm run validate-base && npm run validate-stage && npm run validate-swagger",
     "package-base": "aws cloudformation package --template-file base.deref.yaml --s3-bucket $npm_package_config_ArtifactsBucket --output-template-file cf_base.yaml",
     "package-stage": "aws cloudformation package --template-file stage.deref.yaml --s3-bucket $npm_package_config_ArtifactsBucket --output-template-file cf_stage.yaml",
     "package-all": "npm run package-base && npm run package-stage",
-    "build": "npm run dereference-all && npm run validate-all && npm run package-all"
+    "validate-base": "cfn-lint validate cf_base.yaml",
+    "validate-stage": "cfn-lint validate cf_stage.yaml",
+    "validate-swagger": "swagger-cli validate swagger.yaml",
+    "validate-all": "npm run validate-base && npm run validate-stage && npm run validate-swagger",
+    "build": "npm run dereference-all && npm run package-all && npm run validate-all"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/RazzM13/scaffold-aws-rest-microservice-nodejs.git"
+    "url": "https://github.com/RazzM13/aws-redirector-microservice"
   },
   "author": "RazzM13",
   "license": "MIT"
