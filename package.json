@@ -38,7 +38,7 @@
     "validate-stage": "cfn-lint validate cf_stage.yaml",
     "validate-swagger": "swagger-cli validate swagger.yaml",
     "validate-all": "npm run validate-base && npm run validate-stage && npm run validate-swagger",
-    "build": "npm run dereference-all && npm run package-all && npm run validate-all",
+    "build": "npm run dereference-all && npm run package-all",
     "test": "mocha"
   },
   "repository": {
