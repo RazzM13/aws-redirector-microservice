@@ -8,7 +8,7 @@ exports.handler = (event, context, callback) => {
 
     if (event['httpMethod'] == 'GET') {
         response['statusCode'] = 301;
-        headers['Location'] = 'https://www.google.ro/'
+        response['headers']['Location'] = '/';
     }
 
     callback(null, response);

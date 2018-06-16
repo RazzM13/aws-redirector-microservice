@@ -7,12 +7,16 @@
     "node": ">= 0.10.0"
   },
   "dependencies": {
-    "json-dereference-cli": "git+https://github.com/RazzM13/json-dereference-cli.git",
-    "swagger-cli": "^1.0.1",
     "cfn-lint": "^1.5.1",
-    "nopy": "^0.2.4"
+    "json-dereference-cli": "git+https://github.com/RazzM13/json-dereference-cli.git",
+    "nopy": "^0.2.4",
+    "swagger-cli": "^1.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "merge-options": "^1.0.1",
+    "mocha": "^5.2.0"
+  },
   "python": {
     "dependencies": {
       "awscli": ">=1.11.132"
@@ -34,7 +38,8 @@
     "validate-stage": "cfn-lint validate cf_stage.yaml",
     "validate-swagger": "swagger-cli validate swagger.yaml",
     "validate-all": "npm run validate-base && npm run validate-stage && npm run validate-swagger",
-    "build": "npm run dereference-all && npm run package-all && npm run validate-all"
+    "build": "npm run dereference-all && npm run package-all && npm run validate-all",
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
