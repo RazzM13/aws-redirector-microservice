@@ -1,10 +1,15 @@
 exports.handler = (event, context, callback) => {
-    // TODO implement
     let response = {
         'isBase64Encoded': false,
-        'statusCode': 418,
+        'statusCode': 400,
         'headers': {},
-        'body': 'Hello World from a Little-Teapot!'
+        'body': ''
     }
+
+    if (event['httpMethod'] == 'GET') {
+        response['statusCode'] = 301;
+        headers['Location'] = 'https://www.google.ro/'
+    }
+
     callback(null, response);
 };

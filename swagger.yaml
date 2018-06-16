@@ -63,3 +63,25 @@ paths:
           description: 'OK'
       x-amazon-apigateway-integration:
         $ref: '#/x-aws-support/integrations/RedirectHandlerIntegration'
+
+    put:
+      summary: 'Registers or updates a redirection to the target URL for the specified ID.'
+      # Enable if you plan on supporting API usage plans.
+      #security:
+      #- api_key: []
+      responses:
+        201:
+          description: 'OK'
+      x-amazon-apigateway-integration:
+        $ref: '#/x-aws-support/integrations/RedirectHandlerIntegration'
+
+    delete:
+      summary: 'Disables redirection for the specified ID.'
+      # Enable if you plan on supporting API usage plans.
+      #security:
+      #- api_key: []
+      responses:
+        200:
+          description: 'OK'
+      x-amazon-apigateway-integration:
+        $ref: '#/x-aws-support/integrations/RedirectHandlerIntegration'
