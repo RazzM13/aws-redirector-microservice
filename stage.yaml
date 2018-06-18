@@ -23,6 +23,26 @@ Resources:
               - RestApiId
       StageName:
         Ref: StageNameParameter
+  EndpointsDeploymentStage:
+    Type: 'AWS::ApiGateway::Stage'
+    DependsOn:
+      - EndpointsDeployment
+      - RedirectsTable
+    Properties:
+      DeploymentId:
+        Ref: EndpointsDeployment
+      RestApiId:
+        'Fn::ImportValue':
+          'Fn::Join':
+            - ':'
+            -
+              - Ref: BaseStackName
+              - RestApiId
+      StageName:
+        Ref: StageNameParameter
+      Variables:
+        redirectsTableName:
+          Ref: RedirectsTable
   RedirectsTable:
     Type: 'AWS::DynamoDB::Table'
     Properties:
