@@ -11,6 +11,13 @@ Parameters:
 Resources:
   EndpointsDeployment:
     Type: 'AWS::ApiGateway::Deployment'
+    DependsOn:
+      'Fn::ImportValue':
+        'Fn::Join':
+          - ':'
+          -
+            - Ref: BaseStackName
+            - RestApiId
     Properties:
       Description:
         $ref: 'swagger.yaml#/info/version'
