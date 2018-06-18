@@ -23,11 +23,17 @@ consumes:
 
 parameters:
   IDPathParam:
-    description: 'The target URL ID.'
+    description: 'The redirection ID.'
     required: true
     name: id
     type: string
     in: path
+  URLQueryParam:
+    description: 'The target URL.'
+    required: false
+    name: url
+    type: string
+    in: query
 
 responses:
   nay:
@@ -52,6 +58,7 @@ paths:
   '/r/{id}':
     parameters:
       - $ref: '#/parameters/IDPathParam'
+      - $ref: '#/parameters/URLQueryParam'
 
     get:
       summary: 'Redirects to target URL based on the ID parameter.'
@@ -64,13 +71,24 @@ paths:
       x-amazon-apigateway-integration:
         $ref: '#/x-aws-support/integrations/RedirectHandlerIntegration'
 
-    put:
-      summary: 'Registers or updates a redirection to the target URL for the specified ID.'
+    post:
+      summary: 'Registers a redirection to the target URL for the specified ID.'
       # Enable if you plan on supporting API usage plans.
       #security:
       #- api_key: []
       responses:
         201:
+          description: 'OK'
+      x-amazon-apigateway-integration:
+        $ref: '#/x-aws-support/integrations/RedirectHandlerIntegration'
+
+    put:
+      summary: 'Updates the target URL for the specified redirection ID.'
+      # Enable if you plan on supporting API usage plans.
+      #security:
+      #- api_key: []
+      responses:
+        200:
           description: 'OK'
       x-amazon-apigateway-integration:
         $ref: '#/x-aws-support/integrations/RedirectHandlerIntegration'
