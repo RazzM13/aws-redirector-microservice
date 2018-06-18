@@ -17,7 +17,7 @@ Resources:
       RestApiId:
         'Fn::ImportValue':
           'Fn::Join':
-            - ":"
+            - ':'
             -
               - Ref: BaseStackName
               - RestApiId
@@ -28,18 +28,19 @@ Resources:
     Properties:
       TableName:
         'Fn::Join':
-          - ":"
+          - ':'
           -
             - Ref: BaseStackName
             - Ref: StageNameParameter
+            - 'redirects'
       AttributeDefinitions:
         -
-          AttributeName: "id"
-          AttributeType: "S"
+          AttributeName: 'id'
+          AttributeType: 'S'
       KeySchema:
         -
-          AttributeName: "id"
-          KeyType: "HASH"
+          AttributeName: 'id'
+          KeyType: 'HASH'
       ProvisionedThroughput:
-        ReadCapacityUnits: "1"
-        WriteCapacityUnits: "1"
+        ReadCapacityUnits: '1'
+        WriteCapacityUnits: '1'
