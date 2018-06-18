@@ -23,3 +23,21 @@ Resources:
               - RestApiId
       StageName:
         Ref: StageNameParameter
+  RedirectsTable:
+    Type: 'AWS::DynamoDB::Table'
+    Properties:
+      TableName: "redirects"
+      AttributeDefinitions:
+        -
+          AttributeName: "SURL"
+          AttributeType: "S"
+        -
+          AttributeName: "TURL"
+          AttributeType: "S"
+      KeySchema:
+        -
+          AttributeName: "SURL"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: "1"
+        WriteCapacityUnits: "1"
