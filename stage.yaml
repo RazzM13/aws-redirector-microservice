@@ -28,7 +28,7 @@ Resources:
     Properties:
       TableName:
         'Fn::Join':
-          - ':'
+          - '.'
           -
             - Ref: BaseStackName
             - Ref: StageNameParameter
