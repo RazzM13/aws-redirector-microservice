@@ -29,14 +29,11 @@ Resources:
       TableName: "redirects"
       AttributeDefinitions:
         -
-          AttributeName: "SURL"
-          AttributeType: "S"
-        -
-          AttributeName: "TURL"
+          AttributeName: "id"
           AttributeType: "S"
       KeySchema:
         -
-          AttributeName: "SURL"
+          AttributeName: "id"
           KeyType: "HASH"
       ProvisionedThroughput:
         ReadCapacityUnits: "1"
