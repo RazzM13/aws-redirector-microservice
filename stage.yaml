@@ -26,7 +26,12 @@ Resources:
   RedirectsTable:
     Type: 'AWS::DynamoDB::Table'
     Properties:
-      TableName: "redirects"
+      TableName:
+        'Fn::Join':
+          - ":"
+          -
+            - Ref: BaseStackName
+            - Ref: StageNameParameter
       AttributeDefinitions:
         -
           AttributeName: "id"
