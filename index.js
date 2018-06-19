@@ -57,7 +57,7 @@ exports.handler = (event, context, callback) => {
         switch (event['httpMethod']) {
           case 'GET':
             if (!!item) {
-              response['headers']['Location'] = item['url'];
+              response['headers']['Location'] = item['url']['S'];
               response['statusCode'] = 302;
             } else {
               response['headers']['Location'] = '/';

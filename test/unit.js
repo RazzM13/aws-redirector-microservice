@@ -172,7 +172,7 @@ describe('URL Redirector microservice', function() {
           TableName: 'mock'
         });
         expect(response).to.have.property('statusCode', 302);
-        expect(response).to.have.deep.property('headers', {'Location': getItemResponse['Item']['url']});
+        expect(response).to.have.deep.property('headers', {'Location': getItemResponse['Item']['url']['S']});
         done();
       });
     });
