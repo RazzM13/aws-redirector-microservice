@@ -5,27 +5,33 @@ const mergeOptions = require('merge-options');
 
 let getItemRequest;
 let getItemResponse;
+let getItemResolution;
 let putItemRequest;
 let putItemResponse;
+let putItemResolution;
 let deleteItemRequest;
 let deleteItemResponse;
+let deleteItemResolution;
 
-const dbResult = function(response) {
+const dbResult = function(response, resolution, cb) {
   this.promise = () => {
     return new Promise((resolve, reject) => {
-      if (!!response) {
+      if (resolution) {
         resolve(response);
       } else {
         reject(response);
       }
     });
   }
+  if (!!cb) {
+    cb(null, response);
+  }
 }
 
 const dbMock = function() {}
-dbMock.prototype.getItem = (x) => { getItemRequest = x; return new dbResult(getItemResponse); };
-dbMock.prototype.putItem = (x) => { putItemRequest = x; return new dbResult(putItemResponse); };
-dbMock.prototype.deleteItem = (x) => { deleteItemRequest = x; return new dbResult(deleteItemResponse); };
+dbMock.prototype.getItem = (x, cb) => { getItemRequest = x; return new dbResult(getItemResponse, getItemResolution, cb); };
+dbMock.prototype.putItem = (x, cb) => { putItemRequest = x; return new dbResult(putItemResponse, putItemResolution, cb); };
+dbMock.prototype.deleteItem = (x, cb) => { deleteItemRequest = x; return new dbResult(deleteItemResponse, deleteItemResolution, cb); };
 
 const index = proxyquire('../index.js', {
   'aws-sdk/clients/dynamodb': dbMock
@@ -89,15 +95,44 @@ const sampleEvent = {
   }
 };
 
+const sampleGetItemResponse = {
+  'Item': {
+    'id': {
+      S: 'hello'
+    },
+    'url': {
+      S: "http://target.example.com/"
+    }
+  }
+};
+
+const samplePutItemResponse = {
+  ConsumedCapacity: {
+   CapacityUnits: 1,
+   TableName: 'mock'
+  }
+};
+
+const sampleDeleteItemResponse = {
+  ConsumedCapacity: {
+   CapacityUnits: 1,
+   TableName: 'mock'
+  }
+};
+
+
 describe('URL Redirector microservice', function() {
 
   beforeEach(function() {
     getItemRequest = {};
     getItemResponse = {};
+    getItemResolution = true;
     putItemRequest = {};
     putItemResponse = {};
+    putItemResolution = true;
     deleteItemRequest = {};
     deleteItemResponse = {};
+    deleteItemResolution = true;
   });
 
   describe('#GET', function() {
@@ -126,11 +161,7 @@ describe('URL Redirector microservice', function() {
 
     it('Registered ID - should successfully redirect to target URL', function(done) {
       let event = mergeOptions(sampleEvent);
-      getItemResponse = {
-        'Item': {
-          'url': 'http://target.example.com'
-        }
-      };
+      getItemResponse = mergeOptions(sampleGetItemResponse);
       handler(event, {}, (_, response) => {
         expect(getItemRequest).to.deep.equal({
           Key: {
@@ -174,11 +205,7 @@ describe('URL Redirector microservice', function() {
           'httpMethod': 'POST',
         }
       });
-      getItemResponse = {
-        'Item': {
-          'url': 'http://target.example.com'
-        }
-      };
+      getItemResponse = mergeOptions(sampleGetItemResponse);
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 409);
         expect(response).to.have.deep.property('body', {'error': 'A redirection has already been registered for specified ID!'});
@@ -210,6 +237,7 @@ describe('URL Redirector microservice', function() {
           'httpMethod': 'POST',
         }
       });
+      putItemResponse = mergeOptions(samplePutItemResponse);
       handler(event, {}, (_, response) => {
         expect(putItemRequest).to.deep.equal({
           Item: {
@@ -241,11 +269,7 @@ describe('URL Redirector microservice', function() {
           'id': null
         }
       });
-      getItemResponse = {
-        'Item': {
-          'url': 'http://target.example.com'
-        }
-      };
+      getItemResponse = mergeOptions(sampleGetItemResponse);
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 400);
         expect(response).to.have.deep.property('body', {'error': 'Redirection ID not specified!'});
@@ -263,11 +287,7 @@ describe('URL Redirector microservice', function() {
           'url': null
         }
       });
-      getItemResponse = {
-        'Item': {
-          'url': 'http://target.example.com'
-        }
-      };
+      getItemResponse = mergeOptions(sampleGetItemResponse);
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 400);
         expect(response).to.have.deep.property('body', {'error': 'Redirection target URL not specified!'});
@@ -296,11 +316,8 @@ describe('URL Redirector microservice', function() {
           'httpMethod': 'PUT',
         }
       });
-      getItemResponse = {
-        'Item': {
-          'url': 'http://target.example.com'
-        }
-      };
+      getItemResponse = mergeOptions(sampleGetItemResponse);
+      putItemResponse = mergeOptions(samplePutItemResponse);
       handler(event, {}, (_, response) => {
         expect(putItemRequest).to.deep.equal({
           Item: {
@@ -332,11 +349,7 @@ describe('URL Redirector microservice', function() {
           'id': null
         }
       });
-      getItemResponse = {
-        'Item': {
-          'url': 'http://target.example.com'
-        }
-      };
+      getItemResponse = mergeOptions(sampleGetItemResponse);
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 400);
         expect(response).to.have.deep.property('body', {'error': 'Redirection ID not specified!'});
@@ -354,6 +367,7 @@ describe('URL Redirector microservice', function() {
           'url': null
         }
       });
+      getItemResolution = false;
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 404);
         expect(response).to.have.deep.property('body', {'error': 'No redirection registered for specified ID!'});
@@ -368,11 +382,8 @@ describe('URL Redirector microservice', function() {
           'httpMethod': 'DELETE',
         }
       });
-      getItemResponse = {
-        'Item': {
-          'url': 'http://target.example.com'
-        }
-      };
+      getItemResponse = mergeOptions(sampleGetItemResponse);
+      deleteItemResponse = mergeOptions(sampleDeleteItemResponse);
       handler(event, {}, (_, response) => {
         expect(deleteItemRequest).to.deep.equal({
           Key: {

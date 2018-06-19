@@ -12,23 +12,22 @@ exports.handler = (event, context, callback) => {
     let redirectURL = event['queryStringParameters']['url'];
     let redirectsTableName = event['stageVariables']['redirectsTableName'];
 
+    const sendResponse = (response) => {
+      callback(null, response);
+    };
+
     if (!redirectID) {
       response['body'] = {
         'error': 'Redirection ID not specified!'
       };
-      return callback(null, response);
+      return sendResponse(response);
     }
 
-    return db.getItem({
-      Key: {
-        'id': {
-          S: redirectID
+    const processRequest = (err, data) => {
+        let item = null;
+        if (!!data && data.hasOwnProperty('Item')) {
+          item = data['Item'];
         }
-      },
-      TableName: redirectsTableName
-    }).promise().then((data) => {
-      return new Promise((resolve, reject) => {
-        let item = data['Item'];
         switch (event['httpMethod']) {
           case 'GET':
             if (!!item) {
@@ -38,7 +37,7 @@ exports.handler = (event, context, callback) => {
               response['headers']['Location'] = '/';
               response['statusCode'] = 301;
             }
-            return resolve(response);
+            return sendResponse(response);
             break;
           case 'POST':
             if (!item && !!redirectURL) {
@@ -55,10 +54,10 @@ exports.handler = (event, context, callback) => {
               }).promise()
               .then(() => {
                 response['statusCode'] = 201;
-                resolve(response);
+                sendResponse(response);
               })
               .catch((e) => {
-                reject(e);
+                sendResponse(e);
               });
             } else {
               if (!!item) {
@@ -66,14 +65,14 @@ exports.handler = (event, context, callback) => {
                 response['body'] = {
                   'error': 'A redirection has already been registered for specified ID!'
                 };
-                return reject(response);
+                return sendResponse(response);
               }
               if (!redirectURL) {
                 response['statusCode'] = 400;
                 response['body'] = {
                   'error': 'Redirection target URL not specified!'
                 };
-                return reject(response);
+                return sendResponse(response);
               }
             }
             break;
@@ -92,10 +91,10 @@ exports.handler = (event, context, callback) => {
               }).promise()
               .then(() => {
                 response['statusCode'] = 200;
-                resolve(response);
+                sendResponse(response);
               })
               .catch((e) => {
-                reject(e);
+                sendResponse(e);
               });
             } else {
               if (!item) {
@@ -103,14 +102,14 @@ exports.handler = (event, context, callback) => {
                 response['body'] = {
                   'error': 'No redirection registered for specified ID!'
                 };
-                return reject(response);
+                return sendResponse(response);
               }
               if (!redirectURL) {
                 response['statusCode'] = 400;
                 response['body'] = {
                   'error': 'Redirection target URL not specified!'
                 };
-                return reject(response);
+                return sendResponse(response);
               }
             }
             break;
@@ -126,10 +125,10 @@ exports.handler = (event, context, callback) => {
               }).promise()
               .then(() => {
                 response['statusCode'] = 200;
-                resolve(response);
+                sendResponse(response);
               })
               .catch((e) => {
-                reject(e);
+                sendResponse(e);
               });
             } else {
               if (!item) {
@@ -137,20 +136,22 @@ exports.handler = (event, context, callback) => {
                 response['body'] = {
                   'error': 'No redirection registered for specified ID!'
                 };
-                return reject(response);
+                return sendResponse(response);
               }
             }
             break;
           default:
-            reject('Invalid HTTP method!');
+            sendResponse('Invalid HTTP method!');
             break;
         }
-      });
-    })
-    .then((response) => {
-      callback(null, response);
-    })
-    .catch((response) => {
-      callback(null, response);
-    });
+    };
+
+    return db.getItem({
+      Key: {
+        'id': {
+          S: redirectID
+        }
+      },
+      TableName: redirectsTableName
+    }, processRequest);
 };
