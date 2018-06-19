@@ -8,19 +8,45 @@ exports.handler = (event, context, callback) => {
         'headers': {},
         'body': ''
     };
-    let redirectID = event['pathParameters']['id'];
-    let redirectURL = event['queryStringParameters']['url'];
-    let redirectsTableName = event['stageVariables']['redirectsTableName'];
+
+    let redirectID;
+    let redirectURL;
+    let redirectsTableName;
 
     const sendResponse = (response) => {
       callback(null, response);
     };
 
-    if (!redirectID) {
+    // validate stageVariables
+    if (!event.hasOwnProperty('stageVariables') ||
+        !event['stageVariables'].hasOwnProperty('redirectsTableName') ||
+        !event['stageVariables']['redirectsTableName']) {
+
+      response['body'] = {
+        'error': 'Redirections table name not specified!'
+      };
+      return sendResponse(response);
+    }
+    redirectsTableName = event['stageVariables']['redirectsTableName'];
+
+    // validate pathParameters
+    if (!event.hasOwnProperty('pathParameters') ||
+        !event['pathParameters'].hasOwnProperty('id') ||
+        !event['pathParameters']['id']) {
+
       response['body'] = {
         'error': 'Redirection ID not specified!'
       };
       return sendResponse(response);
+    }
+    redirectID = event['pathParameters']['id'];
+
+    // validate queryStringParameters
+    if (event.hasOwnProperty('queryStringParameters') &&
+        event['queryStringParameters'].hasOwnProperty('url') &&
+        !!event['queryStringParameters']['url']) {
+
+      redirectURL = event['queryStringParameters']['url'];
     }
 
     const processRequest = (err, data) => {
