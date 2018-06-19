@@ -1,23 +1,19 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'URL Redirector microservice - Stage deployment'
+
 Parameters:
   BaseStackName:
     Type: String
     Description: 'The name of the stack that houses the RestApi base.'
+
   StageNameParameter:
     Type: String
     Default: V1
     Description: 'An identifier used to differentiate resources across deployments.'
+
 Resources:
   EndpointsDeployment:
     Type: 'AWS::ApiGateway::Deployment'
-    DependsOn:
-      - 'Fn::ImportValue':
-          'Fn::Join':
-            - ':'
-            -
-              - Ref: BaseStackName
-              - RestApiId
     Properties:
       Description:
         $ref: 'swagger.yaml#/info/version'
@@ -28,11 +24,9 @@ Resources:
             -
               - Ref: BaseStackName
               - RestApiId
+
   EndpointsDeploymentStage:
     Type: 'AWS::ApiGateway::Stage'
-    DependsOn:
-      - EndpointsDeployment
-      - RedirectsTable
     Properties:
       DeploymentId:
         Ref: EndpointsDeployment
@@ -48,6 +42,7 @@ Resources:
       Variables:
         redirectsTableName:
           Ref: RedirectsTable
+
   RedirectsTable:
     Type: 'AWS::DynamoDB::Table'
     Properties:

@@ -1,5 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: 'URL Redirector microservice - Base deployment'
+
 Parameters:
   FunctionRuntime:
     Type: String
@@ -7,6 +8,7 @@ Parameters:
   FunctionTimeout:
     Type: Number
     Default: 180
+
 Resources:
   RestApi:
     Type: 'AWS::ApiGateway::RestApi'
@@ -25,6 +27,7 @@ Resources:
 
   RedirectHandler:
     Type: 'AWS::Lambda::Function'
+    DependsOn: RedirectHandlerRole
     Properties:
       Handler: index.handler
       Code: ./
