@@ -18,7 +18,7 @@ exports.handler = (event, context, callback) => {
     };
 
     // validate stageVariables
-    if (!event.hasOwnProperty('stageVariables') ||
+    if (!event.hasOwnProperty('stageVariables') || !event['stageVariables']
         !event['stageVariables'].hasOwnProperty('redirectsTableName') ||
         !event['stageVariables']['redirectsTableName']) {
 
@@ -30,7 +30,7 @@ exports.handler = (event, context, callback) => {
     redirectsTableName = event['stageVariables']['redirectsTableName'];
 
     // validate pathParameters
-    if (!event.hasOwnProperty('pathParameters') ||
+    if (!event.hasOwnProperty('pathParameters') || !event['pathParameters'] ||
         !event['pathParameters'].hasOwnProperty('id') ||
         !event['pathParameters']['id']) {
 
@@ -42,7 +42,7 @@ exports.handler = (event, context, callback) => {
     redirectID = event['pathParameters']['id'];
 
     // validate queryStringParameters
-    if (event.hasOwnProperty('queryStringParameters') &&
+    if (event.hasOwnProperty('queryStringParameters') && !!event['queryStringParameters'] &&
         event['queryStringParameters'].hasOwnProperty('url') &&
         !!event['queryStringParameters']['url']) {
 
