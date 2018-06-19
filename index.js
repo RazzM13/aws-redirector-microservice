@@ -18,6 +18,7 @@ exports.handler = (event, context, callback) => {
       };
       return callback(null, response);
     }
+
     return db.getItem({
       Key: {
         'id': {
