@@ -18,7 +18,7 @@ exports.handler = (event, context, callback) => {
     };
 
     // validate stageVariables
-    if (!event.hasOwnProperty('stageVariables') || !event['stageVariables']
+    if (!event.hasOwnProperty('stageVariables') || !event['stageVariables'] ||
         !event['stageVariables'].hasOwnProperty('redirectsTableName') ||
         !event['stageVariables']['redirectsTableName']) {
 
