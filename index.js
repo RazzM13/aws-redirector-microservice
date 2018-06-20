@@ -58,6 +58,7 @@ exports.handler = (event, context, callback) => {
           case 'GET':
             if (!!item) {
               response['headers']['Location'] = item['url']['S'];
+              response['headers']['Referrer-Policy'] = 'no-referrer';
               response['statusCode'] = 302;
             } else {
               response['headers']['Location'] = '/';
