@@ -15,6 +15,9 @@ Resources:
     Properties:
       Body:
         $ref: 'swagger.yaml'
+      EndpointConfiguration:
+        Types:
+          - REGIONAL
 
   RestApiLatestDeployment:
     Type: 'AWS::ApiGateway::Deployment'
