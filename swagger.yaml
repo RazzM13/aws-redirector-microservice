@@ -14,12 +14,11 @@ produces:
 consumes:
   - 'application/json'
 
-# Enable if you plan on supporting API usage plans.
-#securityDefinitions:
-#  api_key:
-#    type: "apiKey"
-#    name: "x-api-key"
-#    in: "header"
+securityDefinitions:
+ api_key:
+   type: "apiKey"
+   name: "x-api-key"
+   in: "header"
 
 parameters:
   IDPathParam:
@@ -62,9 +61,6 @@ paths:
 
     get:
       summary: 'Redirects to target URL based on the ID parameter.'
-      # Enable if you plan on supporting API usage plans.
-      #security:
-      #- api_key: []
       responses:
         301:
           description: 'OK'
@@ -73,9 +69,8 @@ paths:
 
     post:
       summary: 'Registers a redirection to the target URL for the specified ID.'
-      # Enable if you plan on supporting API usage plans.
-      #security:
-      #- api_key: []
+      security:
+      - api_key: []
       responses:
         201:
           description: 'OK'
@@ -84,9 +79,8 @@ paths:
 
     put:
       summary: 'Updates the target URL for the specified redirection ID.'
-      # Enable if you plan on supporting API usage plans.
-      #security:
-      #- api_key: []
+      security:
+      - api_key: []
       responses:
         200:
           description: 'OK'
@@ -95,9 +89,8 @@ paths:
 
     delete:
       summary: 'Disables redirection for the specified ID.'
-      # Enable if you plan on supporting API usage plans.
-      #security:
-      #- api_key: []
+      security:
+      - api_key: []
       responses:
         200:
           description: 'OK'
