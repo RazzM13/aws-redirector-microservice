@@ -145,7 +145,7 @@ describe('URL Redirector microservice', function() {
       });
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 400);
-        expect(response).to.have.deep.property('body', {'error': 'Redirection ID not specified!'});
+        expect(response).to.have.property('body', JSON.stringify({'error': 'Redirection ID not specified!'}));
         done();
       });
     });
@@ -196,7 +196,7 @@ describe('URL Redirector microservice', function() {
       });
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 400);
-        expect(response).to.have.deep.property('body', {'error': 'Redirection ID not specified!'});
+        expect(response).to.have.property('body', JSON.stringify({'error': 'Redirection ID not specified!'}));
         done();
       });
     });
@@ -211,7 +211,9 @@ describe('URL Redirector microservice', function() {
       getItemResponse = mergeOptions(sampleGetItemResponse);
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 409);
-        expect(response).to.have.deep.property('body', {'error': 'A redirection has already been registered for specified ID!'});
+        expect(response).to.have.property('body', JSON.stringify({
+          'error': 'A redirection has already been registered for the specified ID!'})
+        );
         done();
       });
     });
@@ -228,7 +230,7 @@ describe('URL Redirector microservice', function() {
       });
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 400);
-        expect(response).to.have.deep.property('body', {'error': 'Redirection target URL not specified!'});
+        expect(response).to.have.property('body', JSON.stringify({'error': 'Redirection target URL not specified!'}));
         done();
       });
     });
@@ -275,7 +277,7 @@ describe('URL Redirector microservice', function() {
       getItemResponse = mergeOptions(sampleGetItemResponse);
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 400);
-        expect(response).to.have.deep.property('body', {'error': 'Redirection ID not specified!'});
+        expect(response).to.have.property('body', JSON.stringify({'error': 'Redirection ID not specified!'}));
         done();
       });
     });
@@ -293,7 +295,7 @@ describe('URL Redirector microservice', function() {
       getItemResponse = mergeOptions(sampleGetItemResponse);
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 400);
-        expect(response).to.have.deep.property('body', {'error': 'Redirection target URL not specified!'});
+        expect(response).to.have.property('body', JSON.stringify({'error': 'Redirection target URL not specified!'}));
         done();
       });
     });
@@ -307,7 +309,7 @@ describe('URL Redirector microservice', function() {
       });
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 404);
-        expect(response).to.have.deep.property('body', {'error': 'No redirection registered for specified ID!'});
+        expect(response).to.have.property('body', JSON.stringify({'error': 'No redirection registered for the specified ID!'}));
         done();
       });
     });
@@ -355,7 +357,7 @@ describe('URL Redirector microservice', function() {
       getItemResponse = mergeOptions(sampleGetItemResponse);
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 400);
-        expect(response).to.have.deep.property('body', {'error': 'Redirection ID not specified!'});
+        expect(response).to.have.property('body', JSON.stringify({'error': 'Redirection ID not specified!'}));
         done();
       });
     });
@@ -373,7 +375,7 @@ describe('URL Redirector microservice', function() {
       getItemResolution = false;
       handler(event, {}, (_, response) => {
         expect(response).to.have.property('statusCode', 404);
-        expect(response).to.have.deep.property('body', {'error': 'No redirection registered for specified ID!'});
+        expect(response).to.have.property('body', JSON.stringify({'error': 'No redirection registered for the specified ID!'}));
         done();
       });
     });

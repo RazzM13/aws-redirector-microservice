@@ -14,6 +14,9 @@ exports.handler = (event, context, callback) => {
     let redirectsTableName;
 
     const sendResponse = (response) => {
+      if (response.hasOwnProperty('body') && (typeof(response['body']) == 'object')) {
+        response['body'] = JSON.stringify(response['body'])
+      }
       callback(null, response);
     };
 
@@ -90,7 +93,7 @@ exports.handler = (event, context, callback) => {
               if (!!item) {
                 response['statusCode'] = 409;
                 response['body'] = {
-                  'error': 'A redirection has already been registered for specified ID!'
+                  'error': 'A redirection has already been registered for the specified ID!'
                 };
                 return sendResponse(response);
               }
@@ -127,7 +130,7 @@ exports.handler = (event, context, callback) => {
               if (!item) {
                 response['statusCode'] = 404;
                 response['body'] = {
-                  'error': 'No redirection registered for specified ID!'
+                  'error': 'No redirection registered for the specified ID!'
                 };
                 return sendResponse(response);
               }
@@ -161,7 +164,7 @@ exports.handler = (event, context, callback) => {
               if (!item) {
                 response['statusCode'] = 404;
                 response['body'] = {
-                  'error': 'No redirection registered for specified ID!'
+                  'error': 'No redirection registered for the specified ID!'
                 };
                 return sendResponse(response);
               }

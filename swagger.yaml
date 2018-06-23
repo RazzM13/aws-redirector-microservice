@@ -63,7 +63,9 @@ paths:
       summary: 'Redirects to target URL based on the ID parameter.'
       responses:
         301:
-          description: 'OK'
+          description: 'Redirection to default URL.'
+        302:
+          description: 'Redirection to target URL.'
       x-amazon-apigateway-integration:
         $ref: '#/x-aws-support/integrations/RedirectHandlerIntegration'
 
@@ -73,7 +75,11 @@ paths:
       - api_key: []
       responses:
         201:
-          description: 'OK'
+          description: 'Redirection succesfully registered.'
+        400:
+          description: 'Unable to register due to missing target URL.'
+        409:
+          description: 'Unable to register due to prior registration.'
       x-amazon-apigateway-integration:
         $ref: '#/x-aws-support/integrations/RedirectHandlerIntegration'
 
@@ -83,7 +89,11 @@ paths:
       - api_key: []
       responses:
         200:
-          description: 'OK'
+          description: 'Redirection succesfully updated.'
+        400:
+          description: 'Unable to update registration due to missing target URL.'
+        404:
+          description: 'Unable to update non-existent registration.'
       x-amazon-apigateway-integration:
         $ref: '#/x-aws-support/integrations/RedirectHandlerIntegration'
 
@@ -94,5 +104,7 @@ paths:
       responses:
         200:
           description: 'OK'
+        404:
+          description: 'Unable to delete non-existent registration.'
       x-amazon-apigateway-integration:
         $ref: '#/x-aws-support/integrations/RedirectHandlerIntegration'
